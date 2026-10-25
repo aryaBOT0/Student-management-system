@@ -1,0 +1,239 @@
+<html lang="en">
+
+<head>
+
+  <meta charset="UTF-8">
+
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <title>Student Management System</title>
+
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+
+</head>
+
+<body>
+
+
+
+  <!-- ============ SIDEBAR / TOP NAV (becomes a top bar on mobile) ============ -->
+
+  <aside class="sidebar">
+
+    <div class="brand">Student<br>Manager</div>
+
+    <nav>
+
+      <button class="nav-btn active" data-view="dashboard">Dashboard</button>
+
+      <button class="nav-btn" data-view="form" id="nav-form">Add Student</button>
+
+    </nav>
+
+  </aside>
+
+
+
+  <main class="content">
+
+
+
+    <!-- ============ VIEW 1: DASHBOARD ============ -->
+
+    <section id="view-dashboard" class="view">
+
+      <h1>Dashboard</h1>
+
+
+
+      <!-- Summary cards -->
+
+      <div class="stats">
+
+        <div class="card stat"><span class="stat-label">Total students</span><span class="stat-value" id="stat-total">0</span></div>
+
+        <div class="card stat"><span class="stat-label">Average marks</span><span class="stat-value" id="stat-avg">0</span></div>
+
+        <div class="card stat"><span class="stat-label">Highest marks</span><span class="stat-value" id="stat-top">0</span></div>
+
+      </div>
+
+
+
+      <!-- Search bar + table -->
+
+      <div class="card">
+
+        <div class="toolbar">
+
+          <h2>Student records</h2>
+
+          <div class="search-box">
+
+            <input type="search" id="search-input" placeholder="Search by name or roll number" aria-label="Search students">
+
+            <button class="btn btn-ghost" id="clear-search" hidden>Clear</button>
+
+          </div>
+
+        </div>
+
+
+
+        <div class="table-wrap">
+
+          <table>
+
+            <thead>
+
+              <tr>
+
+                <th>Roll no</th><th>Name</th><th>Class</th><th>Marks</th><th>Contact</th><th>Actions</th>
+
+              </tr>
+
+            </thead>
+
+            <tbody id="student-body"></tbody>
+
+          </table>
+
+        </div>
+
+        <!-- Shown when there are no rows -->
+
+        <p id="empty-msg" class="empty" hidden></p>
+
+      </div>
+
+    </section>
+
+
+
+    <!-- ============ VIEW 2: ADD / EDIT FORM ============ -->
+
+    <section id="view-form" class="view" hidden>
+
+      <h1 id="form-title">Add Student</h1>
+
+
+
+      <div class="card form-card">
+
+        <form id="student-form" novalidate>
+
+          <!-- Holds the id of the student being edited (empty when adding) -->
+
+          <input type="hidden" id="student-id">
+
+
+
+          <div class="field">
+
+            <label for="name">Full name</label>
+
+            <input type="text" id="name" placeholder="e.g. Aarav Sharma" required>
+
+            <small class="error" id="err-name"></small>
+
+          </div>
+
+
+
+          <div class="field">
+
+            <label for="roll_no">Roll number</label>
+
+            <input type="text" id="roll_no" placeholder="e.g. CS101" required>
+
+            <small class="error" id="err-roll_no"></small>
+
+          </div>
+
+
+
+          <div class="field">
+
+            <label for="class_name">Class</label>
+
+            <input type="text" id="class_name" placeholder="e.g. TY BSc CS" required>
+
+            <small class="error" id="err-class_name"></small>
+
+          </div>
+
+
+
+          <div class="field">
+
+            <label for="marks">Marks (0 to 100)</label>
+
+            <input type="number" id="marks" min="0" max="100" step="0.01" placeholder="e.g. 85.5" required>
+
+            <small class="error" id="err-marks"></small>
+
+          </div>
+
+
+
+          <div class="field">
+
+            <label for="contact">Contact number</label>
+
+            <input type="tel" id="contact" placeholder="e.g. 9876543210" required>
+
+            <small class="error" id="err-contact"></small>
+
+          </div>
+
+
+
+          <div class="form-actions">
+
+            <button type="submit" class="btn btn-primary" id="submit-btn">Save student</button>
+
+            <button type="button" class="btn btn-ghost" id="cancel-btn">Cancel</button>
+
+          </div>
+
+        </form>
+
+      </div>
+
+    </section>
+
+  </main>
+
+
+
+  <!-- ============ DELETE CONFIRMATION DIALOG ============ -->
+
+  <dialog id="confirm-dialog">
+
+    <h3>Delete this student?</h3>
+
+    <p id="confirm-text"></p>
+
+    <div class="form-actions">
+
+      <button class="btn btn-danger" id="confirm-yes">Delete</button>
+
+      <button class="btn btn-ghost" id="confirm-no">Keep student</button>
+
+    </div>
+
+  </dialog>
+
+
+
+  <!-- ============ NOTIFICATION (toast) AREA ============ -->
+
+  <div id="toast-area" aria-live="polite"></div>
+
+
+
+  <script src="{{ url_for('static', filename='script.js') }}"></script>
+
+</body>
+
+</html> 
